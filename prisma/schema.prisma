@@ -1,0 +1,151 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model MealCategory {
+  id    String @id @default(uuid())
+  name  String
+  meals Meal[]
+}
+
+model Meal {
+  id         String          @id @default(uuid())
+  title      String
+  price      Float
+  providerId String
+  createdAt  DateTime        @default(now())
+  categoryId String?
+  category   MealCategory?   @relation(fields: [categoryId], references: [id])
+  provider   ProviderProfile @relation(fields: [providerId], references: [id])
+  orders     OrderItem[]
+  reviews    Review[]
+}
+
+model User {
+  id              String           @id
+  name            String
+  email           String           @unique
+  emailVerified   Boolean          @default(false)
+  image           String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  phone           String?          @default("")
+  status          UserStatus       @default(ACTIVE)
+  role            Role             @default(CUSTOMER)
+  orders          Order[]
+  providerProfile ProviderProfile?
+  reviews         Review[]
+  accounts        Account[]
+  sessions        Session[]
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+model ProviderProfile {
+  id           String @id @default(uuid())
+  userId       String @unique
+  businessName String
+  meals        Meal[]
+  user         User   @relation(fields: [userId], references: [id])
+}
+
+model Order {
+  id         String      @id @default(uuid())
+  userId     String
+  totalPrice Float
+  address    String
+  status     OrderStatus @default(PLACED)
+  user       User        @relation(fields: [userId], references: [id])
+  createdAt  DateTime    @default(now())
+  items      OrderItem[]
+}
+
+model OrderItem {
+  id       String @id @default(uuid())
+  orderId  String
+  mealId   String
+  quantity Int
+  meal     Meal   @relation(fields: [mealId], references: [id])
+  order    Order  @relation(fields: [orderId], references: [id])
+}
+
+model Review {
+  id     String @id @default(uuid())
+  userId String
+  mealId String
+  rating Int
+  meal   Meal   @relation(fields: [mealId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+enum Role {
+  CUSTOMER
+  PROVIDER
+  ADMIN
+}
+
+enum OrderStatus {
+  PLACED
+  PREPARING
+  READY
+  DELIVERED
+  CANCELLED
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  BANNED
+}
