@@ -13,14 +13,14 @@ import { providerRouter } from "./modules/providers/provider.router";
 const app = express();
 
 app.use(cors({
-    origin: process.env.APP_URL || "http://localhost:3000",
+    origin: true,
     credentials: true,
 }));
 app.use(express.json());
 app.use("/api/auth", authRouter);
 
 
-app.all("/api/auth/*splat", toNodeHandler(auth))
+app.all("/api/auth/*", toNodeHandler(auth))
 app.use("/meals",mealsRouter);
 app.use("/order", ordersRouter);
 app.use("/user-admin",adminRouterUser);
@@ -29,7 +29,7 @@ app.use("/category-admin", adminRouterCategory);
 app.use("/providers", providerRouter)
 
 
-app.get("/", (req: Request, res: Response) => {
+app.get("/health", (req: Request, res: Response) => {
     res.send("FooD Server is running!");
 });
 
