@@ -1,4 +1,5 @@
-import type { OrderStatus } from "../../../generated/prisma/enums";
+
+import { OrderStatus } from "../../generated/enums";
 import { prisma } from "../../lib/prisma";
 
 const createOrder = async(payload: any, userId: string) =>{

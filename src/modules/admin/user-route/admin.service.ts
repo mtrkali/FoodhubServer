@@ -1,4 +1,5 @@
-import type { UserStatus } from "../../../../generated/prisma/enums";
+
+import { UserStatus } from "../../../generated/enums";
 import { prisma } from "../../../lib/prisma"
 
 const getAllUsers = async() => {
