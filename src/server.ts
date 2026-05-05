@@ -1,6 +1,6 @@
 import app from "./app";
 
-const port = process.env.PORT ? parseInt(process.env.PORT, 10) : undefined;
+const port = Number(process.env.PORT || 8080);
 
 if (!port) {
     console.error("PORT is missing or invalid!");
