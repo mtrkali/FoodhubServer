@@ -20,7 +20,7 @@ app.use(express.json());
 app.use("/api/auth", authRouter);
 
 
-app.all("/api/auth/*", toNodeHandler(auth))
+app.all("/api/auth/:path*", toNodeHandler(auth));
 app.use("/meals",mealsRouter);
 app.use("/order", ordersRouter);
 app.use("/user-admin",adminRouterUser);
