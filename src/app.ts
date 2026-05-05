@@ -29,8 +29,11 @@ app.use("/category-admin", adminRouterCategory);
 app.use("/providers", providerRouter)
 
 
-app.get("/health", (req: Request, res: Response) => {
-    res.send("FooD Server is running!");
+app.get("/", (req, res) => {
+    res.status(200).send("OK");
 });
 
+app.get("/health", (req, res) => {
+    res.status(200).json({ status: "ok" });
+});
 export default app;
