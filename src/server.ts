@@ -1,6 +1,6 @@
 import app from "./app";
 
-const port = Number(process.env.PORT || 8080);
+const port = Number(process.env.PORT || 5000);
 
 if (!port) {
     console.error("PORT is missing or invalid!");
