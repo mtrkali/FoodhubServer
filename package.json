@@ -6,12 +6,12 @@
   "scripts": {
     "start": "node dist/server.js",
     "dev": "npx tsx watch src/server.ts",
-    "build": "tsc && npx prisma generate && npx prisma migrate deploy"
+    "build": "tsup"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
@@ -31,6 +31,7 @@
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "nodemailer": "^8.0.5",
-    "pg": "^8.20.0"
+    "pg": "^8.20.0",
+    "tsup": "^8.5.1"
   }
 }

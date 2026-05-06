@@ -1,12 +1,17 @@
 import app from "./app";
+import { prisma } from "./lib/prisma";
 
-const port = Number(process.env.PORT || 5000);
-
-if (!port) {
-    console.error("PORT is missing or invalid!");
+const bootstrap = async () => {
+  try {
+    await prisma.$connect();
+    app.listen(process.env.PORT, () => {
+      console.log(`Server is running on http://localhost:${process.env.PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to start server:", error);
+    await prisma.$disconnect();
     process.exit(1);
-}
+  }
+};
 
-app.listen(port, "0.0.0.0", () => {
-    console.log("Server running on", port);
-});
+bootstrap();
