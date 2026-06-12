@@ -9,4 +9,9 @@ router.get(
     providerController.getAllProviders
 )
 
+router.post(
+    "/",
+    providerController.createProvider
+)
+
 export const providerRouter = router

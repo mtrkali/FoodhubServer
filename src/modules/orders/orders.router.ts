@@ -7,14 +7,14 @@ const router = express.Router()
 
 router.post(
     "/",
-    auth(UserRole.ADMIN,UserRole.CUSTOMER,UserRole.PROVIDER),
+    auth(UserRole.ADMIN,UserRole.PROVIDER,UserRole.CUSTOMER),
     ordersController.createOrder
 )
 
 router.get(
-    "/self",
-    auth(UserRole.ADMIN,UserRole.CUSTOMER,UserRole.PROVIDER),
-    ordersController.getMyOrders
+    "/",
+    auth(UserRole.ADMIN,UserRole.PROVIDER,UserRole.CUSTOMER),
+    ordersController.getAllOrders
 )
 
 router.get(
@@ -22,6 +22,13 @@ router.get(
     auth(UserRole.PROVIDER),
     ordersController.getProviderOrders
 )
+
+router.get(
+    "/self",
+    auth(UserRole.ADMIN,UserRole.PROVIDER,UserRole.CUSTOMER),
+    ordersController.getMyOrders
+)
+
 
 router.patch(
     "/:orderId",

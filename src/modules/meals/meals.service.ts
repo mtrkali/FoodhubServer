@@ -1,12 +1,23 @@
 import { prisma } from "../../lib/prisma"
 import type { createMealInput } from "../../types/meal.type";
 
-const getAllMeals = async () => {
+const getAllMeals = async (query: any) => {
+    const {cuisine, dietary, minPrice, maxPrice, providerId} = query;
+    const whereCondition: any  = {}
+    if(cuisine) whereCondition.cuisine = cuisine;
+    if(dietary) whereCondition.dietary = {hasSome: Array.isArray(dietary) ? dietary : [dietary]};
+    if(minPrice || maxPrice){
+        whereCondition.price = {};
+        if(minPrice) whereCondition.price.gte = Number(minPrice);
+        if(maxPrice) whereCondition.price.lte = Number(maxPrice);
+    }
+    if(providerId) whereCondition.providerId = providerId;
     return await prisma.meal.findMany({
-        include: {
-            provider: true,
-            category: true,
-        },
+       where: whereCondition,
+       include: {
+        provider: true,
+        category: true,
+       }
     });
 }
 
@@ -84,11 +95,17 @@ const getMyMeals = async (userId: string) => {
 
     if(!provider){throw new Error("provider not found")}
 
-    return await prisma.meal.findMany({
-        where: {providerId: provider.id},
-    });
+    //total meals of the provider
+    const totalMeals = await prisma.meal.count({where: {providerId: provider.id}});
     
-    }
+    return { 
+        totalMeals,
+        meals: await prisma.meal.findMany({
+            where: {providerId: provider.id},
+        }),
+     };
+    
+}
 
 
 export const mealService = {

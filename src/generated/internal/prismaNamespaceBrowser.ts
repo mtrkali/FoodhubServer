@@ -90,9 +90,14 @@ export type MealCategoryScalarFieldEnum = (typeof MealCategoryScalarFieldEnum)[k
 export const MealScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  image: 'image',
+  description: 'description',
   price: 'price',
-  providerId: 'providerId',
+  cuisine: 'cuisine',
+  dietary: 'dietary',
   createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  providerId: 'providerId',
   categoryId: 'categoryId'
 } as const
 
@@ -163,7 +168,9 @@ export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[k
 export const ProviderProfileScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  businessName: 'businessName'
+  businessName: 'businessName',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type ProviderProfileScalarFieldEnum = (typeof ProviderProfileScalarFieldEnum)[keyof typeof ProviderProfileScalarFieldEnum]
@@ -195,7 +202,10 @@ export const ReviewScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   mealId: 'mealId',
-  rating: 'rating'
+  rating: 'rating',
+  comment: 'comment',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]

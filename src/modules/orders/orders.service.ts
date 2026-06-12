@@ -43,8 +43,21 @@ const createOrder = async(payload: any, userId: string) =>{
 
 
 const getMyOrders = async(userId: string) => {
-    return prisma.order.findMany({
-        where: {userId},
+    return  await prisma.order.findMany({
+           where: {userId},
+           include: {
+             items: {
+                include: {
+                    meal: true,
+                }
+            }
+        },
+        orderBy: {createdAt: "desc",},
+    })
+}
+
+const getAllOrders = async() => {
+    return  await prisma.order.findMany({
         include: {
             items: {
                 include: {
@@ -63,14 +76,17 @@ const getProviderOrders = async(userId: string) =>{
 
     if(!provider) throw new Error("Provider not found");
 
-    return prisma.order.findMany({
-        where: {
+    const whereCondition = {
             items: {
                 some: {
                     meal: {providerId: provider.id,},
                 },
             },
-        },
+        }
+
+    const [orders,totalCount] =  await Promise.all([
+        prisma.order.findMany({
+        where: whereCondition,
         include: {
             items: {
                 include: {
@@ -79,7 +95,13 @@ const getProviderOrders = async(userId: string) =>{
             },
             user: true,
         },
-    });
+    }),
+
+    prisma.order.count({
+        where: whereCondition,
+    }),
+])
+    return { orders, totalCount };
 };
 
 const updateOrderStatus = async (orderId: string, status: OrderStatus) =>{
@@ -90,5 +112,5 @@ const updateOrderStatus = async (orderId: string, status: OrderStatus) =>{
 };
 
 export const ordersService = {
-    createOrder, getMyOrders, getProviderOrders, updateOrderStatus 
+    createOrder, getMyOrders, getProviderOrders, updateOrderStatus, getAllOrders
 }

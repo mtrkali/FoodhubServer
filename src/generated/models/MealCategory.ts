@@ -169,12 +169,12 @@ export type MealCategoryOrderByWithRelationInput = {
 
 export type MealCategoryWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  name?: string
   AND?: Prisma.MealCategoryWhereInput | Prisma.MealCategoryWhereInput[]
   OR?: Prisma.MealCategoryWhereInput[]
   NOT?: Prisma.MealCategoryWhereInput | Prisma.MealCategoryWhereInput[]
-  name?: Prisma.StringFilter<"MealCategory"> | string
   meals?: Prisma.MealListRelationFilter
-}, "id">
+}, "id" | "name">
 
 export type MealCategoryOrderByWithAggregationInput = {
   id?: Prisma.SortOrder

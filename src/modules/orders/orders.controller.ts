@@ -35,6 +35,21 @@ const getMyOrders  = async (req: Request, res: Response)=>{
  }
 }
 
+const getAllOrders  = async (req: Request, res: Response)=>{
+    try {
+        const result = await ordersService.getAllOrders()
+        res.status(201).json({
+            message: "all order feached success!!",
+            data: result,
+        })
+    } catch (error: any) {
+         res.status(500).json({
+            message: "Something went wrong from getAllOrders controller",
+            error: error.message,
+        })
+    }
+}
+
 const getProviderOrders  = async (req: Request, res: Response)=>{
     try {
         const user = req.user;
@@ -69,5 +84,5 @@ const updateOrderStatus  = async (req: Request, res: Response)=>{
 
 
 export const ordersController = {
-    createOrder, getMyOrders, getProviderOrders, updateOrderStatus 
+    createOrder, getMyOrders, getProviderOrders, updateOrderStatus, getAllOrders
 }

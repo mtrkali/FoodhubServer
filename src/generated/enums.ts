@@ -36,3 +36,28 @@ export const UserStatus = {
 } as const
 
 export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
+
+
+export const Cuisine = {
+  BANGLADESHI: 'BANGLADESHI',
+  INDIAN: 'INDIAN',
+  CHINESE: 'CHINESE',
+  ITALIAN: 'ITALIAN',
+  MEXICAN: 'MEXICAN',
+  THAI: 'THAI',
+  JAPANESE: 'JAPANESE'
+} as const
+
+export type Cuisine = (typeof Cuisine)[keyof typeof Cuisine]
+
+
+export const DietaryPreference = {
+  HALAL: 'HALAL',
+  VEGAN: 'VEGAN',
+  VEGETARIAN: 'VEGETARIAN',
+  GLUTEN_FREE: 'GLUTEN_FREE',
+  DAIRY_FREE: 'DAIRY_FREE',
+  KETO: 'KETO'
+} as const
+
+export type DietaryPreference = (typeof DietaryPreference)[keyof typeof DietaryPreference]

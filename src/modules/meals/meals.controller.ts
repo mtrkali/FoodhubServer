@@ -4,11 +4,11 @@ import { mealService } from "./meals.service";
 
 const getAllMeals = async (req: Request, res: Response) => {
     try {
-        const meals = await mealService.getAllMeals();
+        const meals = await mealService.getAllMeals(req.query);
         res.status(200).json(meals);
     } catch (error: any) {
         res.status(500).json({
-            message: "Something went wrong",
+            message: "Something went wrong in getAllmeals controller",
             error: error.message,
         })
     }

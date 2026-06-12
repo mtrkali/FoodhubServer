@@ -9,6 +9,16 @@ const getAllProviders = async() =>{
 }
 
 
+const createProvider = async(userId: string, businessName: string) => {
+    return await prisma.providerProfile.create({
+        data: {
+            userId,
+            businessName
+        }
+    })
+}
+
 export const providerService = {
     getAllProviders,
+    createProvider
 }

@@ -9,16 +9,24 @@ datasource db {
 
 model MealCategory {
   id    String @id @default(uuid())
-  name  String
+  name  String @unique
   meals Meal[]
 }
 
 model Meal {
   id         String          @id @default(uuid())
   title      String
+  image      String?
+  description String?
   price      Float
-  providerId String
+
+  cuisine    Cuisine        @default(BANGLADESHI)
+  dietary    DietaryPreference[]
+
   createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+
+  providerId String
   categoryId String?
   category   MealCategory?   @relation(fields: [categoryId], references: [id])
   provider   ProviderProfile @relation(fields: [providerId], references: [id])
@@ -97,6 +105,8 @@ model ProviderProfile {
   id           String @id @default(uuid())
   userId       String @unique
   businessName String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
   meals        Meal[]
   user         User   @relation(fields: [userId], references: [id])
 }
@@ -126,6 +136,9 @@ model Review {
   userId String
   mealId String
   rating Int
+  comment String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   meal   Meal   @relation(fields: [mealId], references: [id])
   user   User   @relation(fields: [userId], references: [id])
 }
@@ -148,4 +161,24 @@ enum UserStatus {
   ACTIVE
   INACTIVE
   BANNED
+}
+
+
+enum Cuisine {
+  BANGLADESHI
+  INDIAN
+  CHINESE
+  ITALIAN
+  MEXICAN
+  THAI
+  JAPANESE
+}
+
+enum DietaryPreference {
+  HALAL
+  VEGAN
+  VEGETARIAN
+  GLUTEN_FREE
+  DAIRY_FREE
+  KETO
 }
