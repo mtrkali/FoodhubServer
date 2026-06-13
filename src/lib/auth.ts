@@ -196,6 +196,6 @@ export const auth = betterAuth({
     },
  trustedOrigins: [
   "http://localhost:3000",
-  process.env.APP_URL || "https://food-hub-client-theta.vercel.app",
+  "https://food-hub-client-theta.vercel.app",
 ],
 });
