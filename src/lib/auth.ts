@@ -194,5 +194,8 @@ export const auth = betterAuth({
             clientSecret: process.env.GOOGLE_CLIENT_SECRET as string, 
         }, 
     },
-  trustedOrigins: [process.env.APP_URL || "http://localhost:3000"],
+ trustedOrigins: [
+  "http://localhost:3000",
+  process.env.APP_URL || "https://food-hub-client-theta.vercel.app",
+],
 });
