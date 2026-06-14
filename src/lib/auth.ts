@@ -14,7 +14,7 @@ const transporter = nodeMailer.createTransport({
 })
 
 export const auth = betterAuth({
-    baseURL: process.env.BETTER_AUTH_URL || "https://foodhubserver-eot2.onrender.com",
+    baseURL: "https://foodhubserver-eot2.onrender.com",
     database: prismaAdapter(prisma, {
         provider: "postgresql",
     }),
