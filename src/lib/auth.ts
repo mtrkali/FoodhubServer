@@ -191,11 +191,13 @@ export const auth = betterAuth({
             prompt: "select_account consent",
             accessType: "offline",
             clientId: process.env.GOOGLE_CLIENT_ID as string, 
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string, 
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+            redirectURI: `${process.env.FRONTEND_URL}/api/auth/callback/google` 
         }, 
     },
  trustedOrigins: [
   "http://localhost:3000",
   "https://food-hub-client-theta.vercel.app",
+  "https://foodhubserver-eot2.onrender.com",
 ],
 });

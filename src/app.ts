@@ -16,7 +16,7 @@ import { reviewRouter } from "./modules/reviews/review.router";
 const app = express();
 
 app.use(cors({
-    origin: true,
+    origin: "*",
     credentials: true,
 }));
 
