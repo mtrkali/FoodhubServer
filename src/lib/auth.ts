@@ -14,7 +14,9 @@ const transporter = nodeMailer.createTransport({
 })
 
 export const auth = betterAuth({
-    baseURL: "https://foodhubserver-eot2.onrender.com",
+    baseURL: process.env.FRONTEND_URL,
+    trustedOrigins: [process.env.FRONTENT_URL!],
+
     database: prismaAdapter(prisma, {
         provider: "postgresql",
     }),
@@ -188,16 +190,37 @@ export const auth = betterAuth({
 
   socialProviders: {
         google: { 
-            prompt: "select_account consent",
-            accessType: "offline",
             clientId: process.env.GOOGLE_CLIENT_ID as string, 
             clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-            redirectURI: `${process.env.FRONTEND_URL}/api/auth/callback/google` 
+            prompt: "select_account consent",
         }, 
-    },
- trustedOrigins: [
-  "http://localhost:3000",
-  "https://food-hub-client-theta.vercel.app",
-  "https://foodhubserver-eot2.onrender.com",
-],
+  },
+
+
+ 
+
+
+
+  advanced: {
+    cookies: {
+      session_token: {
+        name: "session_token",
+        attributes: {
+          httpOnly: true,
+          secure: true,
+          sameSite: "none",
+          partitioned: true
+        }
+      },
+      state: {
+        name: "session_token",
+        attributes: {
+          httpOnly: true,
+          secure: true,
+          sameSite: "none",
+          partitioned: true,
+        }
+      }
+    }
+  }
 });
